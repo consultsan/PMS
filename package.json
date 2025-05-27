@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@fontsource/inter": "^5.2.5",
+    "exceljs": "^4.4.0"
+  }
+}

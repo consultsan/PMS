@@ -1,0 +1,10 @@
+.login-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: url('/login-bg.png') no-repeat center center;
+  background-size: cover;
+  z-index: 0;
+} 

@@ -1,0 +1,138 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  SUPERADMIN
+  ADMIN
+  PARTNER
+  SALES_PERSON
+}
+
+enum PartnerPointsStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  password      String
+  firstName     String
+  lastName      String
+  phone         String
+  role          UserRole
+  status        String    @default("ONBOARDING")
+  isActive      Boolean   @default(false)
+  hospitalId    String?
+  hospital      Hospital? @relation(fields: [hospitalId], references: [id])
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  lastLoginAt   DateTime?
+  partnerLeads  Lead[]    @relation("PartnerLeads")
+  salesPersonLeads Lead[] @relation("SalesPersonLeads")
+  createdLeads  Lead[]    @relation("CreatedByLeads")
+  partnerPoints PartnerPoints[]
+  pan           String?
+  aadhaar       String?
+  panDocUrl     String?
+  aadhaarDocUrl String?
+  leadRemarks   LeadRemark[]
+  partnerType   String?
+  partnerTypeOther String?
+  bankName      String?
+  accountNumber String?
+  ifscCode      String?
+}
+
+model Hospital {
+  id          String    @id @default(uuid())
+  name        String
+  address     String
+  city        String
+  state       String
+  country     String
+  phone       String?
+  email       String?
+  users       User[]
+  leads       Lead[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  isActive    Boolean   @default(true)
+}
+
+model Lead {
+  id          String   @id @default(uuid())
+  name        String
+  phone       String
+  remarks     String?
+  fileUrl     String?
+  status      LeadStatus @default(NEW)
+  points      Int      @default(100)
+  partnerId   String?
+  partner     User?    @relation("PartnerLeads", fields: [partnerId], references: [id])
+  salesPersonId String?
+  salesPerson   User?  @relation("SalesPersonLeads", fields: [salesPersonId], references: [id])
+  hospitalId  String
+  hospital    Hospital @relation(fields: [hospitalId], references: [id])
+  createdById String
+  createdBy   User     @relation("CreatedByLeads", fields: [createdById], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  isDeleted   Boolean  @default(false)
+  documents   LeadDocument[]
+  leadRemarks LeadRemark[]
+  specialisation String?
+}
+
+enum LeadStatus {
+  NEW
+  NOT_REACHABLE
+  NOT_INTERESTED
+  OPD_DONE
+  IPD_DONE
+  CLOSED
+  DELETED
+  DUPLICATE
+}
+
+model PartnerPoints {
+  id        String     @id @default(uuid())
+  partner   User       @relation(fields: [partnerId], references: [id])
+  partnerId String
+  status    LeadStatus
+  points    Int
+  approvalStatus PartnerPointsStatus @default(APPROVED)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  @@unique([partnerId, status])
+}
+
+model LeadDocument {
+  id        String   @id @default(uuid())
+  lead      Lead     @relation(fields: [leadId], references: [id])
+  leadId    String
+  fileUrl   String
+  uploadedAt DateTime @default(now())
+}
+
+model LeadRemark {
+  id        String   @id @default(uuid())
+  lead      Lead     @relation(fields: [leadId], references: [id])
+  leadId    String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  message   String
+  createdAt DateTime @default(now())
+  fileUrl   String?
+} 

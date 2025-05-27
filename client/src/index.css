@@ -1,0 +1,149 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gray-50 text-gray-900;
+    font-family: var(--font-primary);
+    font-weight: var(--font-weight-regular);
+    font-size: var(--font-size-body);
+    color: #222;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply px-4 py-2 rounded-md font-medium transition-colors duration-200;
+  }
+  
+  .btn-primary {
+    @apply bg-primary-600 text-white hover:bg-primary-700;
+  }
+  
+  .btn-secondary {
+    @apply bg-gray-200 text-gray-800 hover:bg-gray-300;
+  }
+  
+  .input {
+    @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent;
+  }
+  
+  .card {
+    @apply bg-white rounded-lg shadow-lg p-6;
+  }
+}
+
+:root {
+  --font-primary: 'Inter', 'Roboto', 'Segoe UI', sans-serif;
+  --font-heading: 'Inter', 'DM Sans', 'Roboto', 'Segoe UI', sans-serif;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-size-h1: 2rem;
+  --font-size-h2: 1.5rem;
+  --font-size-body: 1rem;
+  --font-size-small: 0.875rem;
+  --font-size-button: 0.875rem;
+}
+
+h1, .h1 {
+  font-family: var(--font-heading);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-h1);
+}
+h2, .h2 {
+  font-family: var(--font-heading);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-h2);
+}
+
+button, .btn, .button, label, .label {
+  font-family: var(--font-primary);
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-button);
+  letter-spacing: 0.01em;
+}
+
+.small, .text-small, small {
+  font-size: var(--font-size-small);
+}
+
+.table, th, td {
+  font-family: var(--font-primary);
+  font-size: var(--font-size-body);
+  text-align: center;
+}
+
+input, select, textarea {
+  font-family: var(--font-primary);
+  font-size: var(--font-size-body);
+}
+
+/* --- Table Design Principles --- */
+.table {
+  background: #F9FAFB;
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+.table th {
+  background: #1D4ED8;
+  color: #FFFFFF;
+  font-weight: var(--font-weight-semibold);
+  border-bottom: 1px solid #E5E7EB;
+  padding: 0.75rem 0.5rem;
+}
+.table td {
+  color: #1F2937;
+  background: #F9FAFB;
+  border-bottom: 1px solid #E5E7EB;
+  padding: 0.75rem 0.5rem;
+}
+.table tr:nth-child(even) td {
+  background: #F3F4F6;
+}
+.table tr:last-child td {
+  border-bottom: none;
+}
+.table tr:hover td {
+  background: #EEF2FF;
+}
+.table th, .table td {
+  text-align: center;
+}
+.table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+/* Status Badges */
+.status-badge {
+  display: inline-block;
+  padding: 0.25em 0.75em;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: #fff;
+}
+.status-approved {
+  background: #10B981;
+}
+.status-pending {
+  background: #F59E0B;
+}
+.status-rejected {
+  background: #EF4444;
+}
+
+/* Table border radius fix for overflow */
+.table {
+  border-radius: 0.5rem;
+  overflow: hidden;
+} 
